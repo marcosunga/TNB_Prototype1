@@ -79,6 +79,27 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
 
   // 3. Update the Surprise Page UI based on the lookup result
   updateResultUI(status, nick, first, last, promotedTitle, fullName, initials);
+  
+  if (status === "accepted") {
+    headingEl.innerHTML = `Congratulations,<br/><span class="red-text">${nick}</span>!`;
+    messageEl.innerHTML = buildMessage(nick, promotedTitle);
+    
+    // Fill ID Card
+    document.getElementById("id-name").textContent = fullName;
+    document.getElementById("id-pos").textContent = promotedTitle;
+    document.getElementById("id-avatar").textContent = initials;
+    
+    idCard.style.display = "flex";
+
+    // --- FIX FOR ANIMATED POPPER ---
+    sealEl.innerHTML = `<span>🎉</span>`; // Wrap in span for the CSS animation
+    sealEl.classList.add("party-animate"); // Trigger the wiggle
+  } 
+  else {
+    // For other statuses, remove the animation
+    sealEl.classList.remove("party-animate");
+    // ... rest of your else/if blocks ...
+  }
 
   // 4. Transition UI
   document.getElementById("page-form").classList.remove("active");
@@ -88,7 +109,7 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
     document.getElementById("page-loading").classList.remove("active");
     document.getElementById("page-surprise").classList.add("active");
     window.scrollTo(0, 0);
-    
+
     // Only launch confetti for accepted members
     if (status === "accepted") {
       launchConfetti();
