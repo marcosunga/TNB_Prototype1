@@ -511,20 +511,27 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
   .org-header { padding: 0 1.25rem; }
   .org-badge { display: none; }
   .s-message { font-size: 0.92rem; }
+} /* <--- THIS BRACE WAS MISSING */
 
-/* 1. Define the "Pop" Animation */
+/* 1. Define the "Pop" Animation (Now outside the media query) */
 @keyframes party-wiggle {
   0% { transform: scale(1) rotate(0deg); }
-  20% { transform: scale(1.3) rotate(-15deg); } /* Grow and tilt left */
+  20% { transform: scale(1.3) rotate(-15deg); }
   40% { transform: scale(1) rotate(0deg); }
-  60% { transform: scale(1.3) rotate(15deg); }  /* Grow and tilt right */
+  60% { transform: scale(1.3) rotate(15deg); }
   80% { transform: scale(1) rotate(0deg); }
   100% { transform: scale(1) rotate(0deg); }
 }
 
 /* 2. Apply it only when the 'party-animate' class is added */
 .seal-inner.party-animate span {
-  display: inline-block; /* Required for transform/rotation to work */
+  display: inline-block;
   animation: party-wiggle 0.8s ease-in-out infinite;
 }
+
+/* 3. ENSURE FORM IS CLICKABLE */
+#page-form.active {
+  display: flex;
+  position: relative;
+  z-index: 5; /* This pushes it above the background glows */
 }
