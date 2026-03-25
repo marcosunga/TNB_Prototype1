@@ -1,3 +1,38 @@
+/**
+ * MEMBER CONFIGURATION
+ * Add surnames in lowercase here for the system to recognize them.
+ */
+const memberStatus = {
+  // ACCEPTED (Will see the Promotion Surprise + ID Card + Confetti)
+  "patricio": "accepted",
+  "koh": "accepted",
+  "galang": "accepted",
+  "donadilla": "accepted",
+  "bernabeo": "accepted",
+  "tejero": "accepted",
+  "martin": "accepted",
+  "talabador": "accepted",
+  "verutiao": "accepted",
+  "miranda": "accepted",
+  "suyod": "accepted",
+  "grey": "accepted",
+  "perlado": "accepted",
+  "valencia": "accepted",
+  "marcos": "accepted",
+  "guiyab": "accepted",
+  "foronda": "accepted",
+
+  // ON-HOLD (Will see a "Hang tight" message, No ID, No Confetti)
+  "reyes": "on-hold",
+  "asis": "on-hold",
+  
+  // NOT-ACCEPTED (Will see a "Thank you" message, No ID, No Confetti)
+  "viador": "not-accepted",
+  "manalo": "not-accepted",
+  "villanueva": "not-accepted",
+  // Anyone NOT on this list will automatically show as "Unrecognized"
+};
+
 // ── Form submit ──
 document.getElementById("main-form").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -11,6 +46,7 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
 
   let valid = true;
 
+  // Validation Check
   fields.forEach(([id, errId]) => {
     const el  = document.getElementById(id);
     const err = document.getElementById(errId);
@@ -26,45 +62,85 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
 
   if (!valid) return;
 
-  // ... existing validation code above ...
-
+  // Capture Inputs
   const nick  = document.getElementById("nickname").value.trim();
   const first = document.getElementById("firstName").value.trim();
   const last  = document.getElementById("lastName").value.trim();
   
-  // 1. Capture what they ACTUALLY selected for the ID card
-  const selectedPos = document.getElementById("position").value; 
-  
-  // 2. Create the "Surprise" promotion title
-  const promotedTitle = "OFFICIAL STAFFER";
+  // 1. Status Lookup Logic
+  // We lowercase and remove spaces to prevent "De La Cruz" vs "delacruz" errors
+  const lookupName = last.toLowerCase().replace(/\s/g, '');
+  const status = memberStatus[lookupName] || "unrecognized";
 
+  // 2. Prepare Display Data
+  const promotedTitle = "OFFICIAL STAFFER";
   const fullName = `${first} "${nick}" ${last}`;
   const initials = (first[0] || "").toUpperCase() + (last[0] || "").toUpperCase();
 
-  // Populate surprise page
-  document.getElementById("s-nick").textContent = nick;
-  
-  // PASS THE PROMOTED TITLE TO THE MESSAGE
-  document.getElementById("s-message").innerHTML = buildMessage(nick, promotedTitle);
-  
-  document.getElementById("id-name").textContent = fullName;
-  
-  // KEEP THE ORIGINAL POSITION ON THE ID CARD (OR CHANGE TO STAFFER TOO IF YOU WANT)
-  document.getElementById("id-pos").textContent = promotedTitle; 
-  document.getElementById("id-avatar").textContent = initials;
+  // 3. Update the Surprise Page UI based on the lookup result
+  updateResultUI(status, nick, first, last, promotedTitle, fullName, initials);
 
-  // Show suspense loading screen, then reveal
+  // 4. Transition UI
   document.getElementById("page-form").classList.remove("active");
   window.scrollTo(0, 0);
+
   runSuspense(() => {
     document.getElementById("page-loading").classList.remove("active");
     document.getElementById("page-surprise").classList.add("active");
     window.scrollTo(0, 0);
-    launchConfetti();
+    
+    // Only launch confetti for accepted members
+    if (status === "accepted") {
+      launchConfetti();
+    }
   });
 });
 
-// ── Clear invalid on input ──
+/**
+ * UI UPDATER
+ * Dynamically changes the page content based on the applicant's status
+ */
+function updateResultUI(status, nick, first, last, promotedTitle, fullName, initials) {
+  const messageEl = document.getElementById("s-message");
+  const nickEl    = document.getElementById("s-nick");
+  const headingEl = document.querySelector(".s-heading");
+  const idCard    = document.querySelector(".id-card");
+  const sealEl    = document.getElementById("surprise-seal");
+
+  nickEl.textContent = nick;
+  idCard.style.display = "none"; // Hidden by default for non-accepted
+
+  if (status === "accepted") {
+    headingEl.innerHTML = `Congratulations,<br/><span class="red-text">${nick}</span>!`;
+    messageEl.innerHTML = buildMessage(nick, promotedTitle);
+    
+    // Fill ID Card
+    document.getElementById("id-name").textContent = fullName;
+    document.getElementById("id-pos").textContent = promotedTitle;
+    document.getElementById("id-avatar").textContent = initials;
+    
+    idCard.style.display = "flex";
+    sealEl.innerHTML = "🎉";
+  } 
+  else if (status === "on-hold") {
+    headingEl.innerHTML = `Hang tight,<br/>${nick}.`;
+    messageEl.innerHTML = `Your application for The New Builder is currently <strong>ON HOLD</strong>. Our editors are performing a final review of your portfolio. Check back soon for updates!`;
+    sealEl.innerHTML = "⏳";
+  } 
+  else if (status === "not-accepted") {
+    headingEl.innerHTML = `Thank you,<br/>${nick}.`;
+    messageEl.innerHTML = `We appreciate your interest in joining The New Builder. After careful review, we are moving forward with other candidates at this time. Keep writing and creating!`;
+    sealEl.innerHTML = "✉️";
+  } 
+  else {
+    // unrecognized
+    headingEl.innerHTML = `System Error,<br/>${nick}.`;
+    messageEl.innerHTML = `<strong>Unrecognized Member.</strong> We couldn't find a record for the surname "<strong>${last}</strong>". Please contact the Features Editor or your Section Head to verify your status.`;
+    sealEl.innerHTML = "⚠️";
+  }
+}
+
+// ── Input Cleaning ──
 document.querySelectorAll("input, select").forEach((el) => {
   el.addEventListener("input", () => {
     el.classList.remove("invalid");
@@ -73,7 +149,7 @@ document.querySelectorAll("input, select").forEach((el) => {
   });
 });
 
-// ── Suspense loading sequence ──
+// ── Suspense Sequence ──
 function runSuspense(onDone) {
   const page      = document.getElementById("page-loading");
   const statusEl  = document.getElementById("loading-status");
@@ -82,10 +158,10 @@ function runSuspense(onDone) {
   page.classList.add("active");
 
   const steps = [
-    { pct: 15,  text: "Verifying your information…",       delay: 0    },
-    { pct: 38,  text: "Cross-checking member records…",    delay: 800  },
-    { pct: 62,  text: "Reviewing your application…",       delay: 1700 },
-    { pct: 85,  text: "Preparing something special…",      delay: 2700 },
+    { pct: 15,  text: "Verifying your identity…",          delay: 0    },
+    { pct: 38,  text: "Accessing member database…",        delay: 800  },
+    { pct: 62,  text: "Retrieving application status…",    delay: 1700 },
+    { pct: 85,  text: "Finalizing your results…",          delay: 2700 },
     { pct: 100, text: "Almost there…",                     delay: 3600 },
   ];
 
@@ -100,14 +176,13 @@ function runSuspense(onDone) {
     }, delay);
   });
 
-  // Total suspense: 4200ms (random between 3.8s–4.6s for extra drama)
   const total = 3800 + Math.random() * 800;
   setTimeout(onDone, total);
 }
 
-
+// ── Message Builder (Promotion Surprise) ──
 function buildMessage(nick, position) {
-  return `We have a special announcement! While you applied as a Junior, we are beyond thrilled to officially promote and welcome you, <strong>${nick}</strong>, as an <strong>${position}</strong> of The New Builder! 🎊 This is just the beginning of your journey with us.`;
+  return `While you applied as a Junior, we have a special announcement! We are beyond thrilled to officially promote and welcome you, <strong>${nick}</strong>, as an <strong>${position}</strong> of The New Builder! 🎊 This is just the start of your journey with the team.`;
 }
 
 // ── Reset ──
