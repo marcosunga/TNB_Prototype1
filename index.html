@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Member Portal</title>
+  <title>The New Builder's Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -29,7 +29,7 @@
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
           </svg>
         </div>
-        <span class="brand-name">Member Portal</span>
+        <span class="brand-name">The New Builder's Portal</span>
       </div>
 
       <div class="card">
@@ -38,8 +38,8 @@
 
           <div>
             <p class="eyebrow">Welcome</p>
-            <h1 class="card-heading">Sign in to your<br/>account</h1>
-            <p class="card-hint">Fill in your details to access the member portal.</p>
+            <h1 class="card-heading">Who are<br/>you?</h1>
+            <p class="card-hint">Fill in your details to access The New Builder's portal.</p>
           </div>
 
           <form id="main-form" novalidate>
@@ -68,20 +68,25 @@
               <span class="field-error hidden" id="err-nickname">Required.</span>
             </div>
 
+            
             <!-- Position -->
             <div class="field-block">
-              <label class="field-label">Current Position <span class="req">*</span></label>
-              <div class="select-wrap">
-                <select id="position">
-                  <option value="" disabled selected>Select your position…</option>
-                  <option value="Staffer">Staffer</option>
-                </select>
-                <svg class="select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="m6 9 6 6 6-6"/>
-                </svg>
-              </div>
-              <span class="field-error hidden" id="err-position">Please select a position.</span>
-            </div>
+  <label class="field-label" for="position">Current Position <span class="req">*</span></label>
+  <div class="select-wrap">
+    <select id="position" required>
+      <option value="" disabled selected>Select your position…</option>
+      <option value="staffer">Staffer</option>
+      <option value="juniors-writer">Juniors - Writer</option>
+      <option value="juniors-gfx">Juniors - GFX</option>
+      <option value="juniors-photographer">Juniors - Photographer</option>
+    </select>
+    
+    <svg class="select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </div>
+  <span class="field-error hidden" id="err-position">Please select a position.</span>
+</div>
 
             <button type="submit" class="btn-red">
               Submit &amp; Continue
@@ -92,7 +97,7 @@
 
           </form>
 
-          <p class="login-footnote">🔒 One-time member registration. Your info stays within the org.</p>
+          <p class="login-footnote">🔒 Are you ready to continue?.</p>
 
         </div>
       </div>
