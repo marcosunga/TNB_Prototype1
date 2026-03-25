@@ -94,7 +94,7 @@ function runSuspense(onDone) {
 
 
 function buildMessage(nick, position) {
-  return `We are beyond thrilled to officially welcome you, <strong>${nick}</strong>, as an <strong> official staffer </strong> of The New Builder! 🎊 This moment marks the beginning of an incredible journey — we've been waiting for someone just like you. Get ready to grow, connect, and make a real difference with the team!`;
+  return `We are beyond thrilled to officially welcome you, <strong>${nick}</strong>, as an <strong> OFFICIAL STAFFER </strong> of The New Builder! 🎊 This moment marks the beginning of an incredible journey — we've been waiting for someone just like you. Get ready to grow, connect, and make a real difference with the team!`;
 }
 
 // ── Reset ──
