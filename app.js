@@ -33,7 +33,6 @@ const memberStatus = {
   // Anyone NOT on this list will automatically show as "Unrecognized"
 };
 
-// ── Form submit ──
 document.getElementById("main-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -46,7 +45,6 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
 
   let valid = true;
 
-  // Validation Check
   fields.forEach(([id, errId]) => {
     const el  = document.getElementById(id);
     const err = document.getElementById(errId);
@@ -62,46 +60,21 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
 
   if (!valid) return;
 
-  // Capture Inputs
   const nick  = document.getElementById("nickname").value.trim();
   const first = document.getElementById("firstName").value.trim();
   const last  = document.getElementById("lastName").value.trim();
   
-  // 1. Status Lookup Logic
-  // We lowercase and remove spaces to prevent "De La Cruz" vs "delacruz" errors
   const lookupName = last.toLowerCase().replace(/\s/g, '');
   const status = memberStatus[lookupName] || "unrecognized";
 
-  // 2. Prepare Display Data
   const promotedTitle = "OFFICIAL STAFFER";
   const fullName = `${first} "${nick}" ${last}`;
   const initials = (first[0] || "").toUpperCase() + (last[0] || "").toUpperCase();
 
-  // 3. Update the Surprise Page UI based on the lookup result
+  // Call the UI updater (this handles the text AND the animation)
   updateResultUI(status, nick, first, last, promotedTitle, fullName, initials);
   
-  if (status === "accepted") {
-    headingEl.innerHTML = `Congratulations,<br/><span class="red-text">${nick}</span>!`;
-    messageEl.innerHTML = buildMessage(nick, promotedTitle);
-    
-    // Fill ID Card
-    document.getElementById("id-name").textContent = fullName;
-    document.getElementById("id-pos").textContent = promotedTitle;
-    document.getElementById("id-avatar").textContent = initials;
-    
-    idCard.style.display = "flex";
-
-    // --- FIX FOR ANIMATED POPPER ---
-    sealEl.innerHTML = `<span>🎉</span>`; // Wrap in span for the CSS animation
-    sealEl.classList.add("party-animate"); // Trigger the wiggle
-  } 
-  else {
-    // For other statuses, remove the animation
-    sealEl.classList.remove("party-animate");
-    // ... rest of your else/if blocks ...
-  }
-
-  // 4. Transition UI
+  // Transition UI
   document.getElementById("page-form").classList.remove("active");
   window.scrollTo(0, 0);
 
@@ -110,7 +83,6 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
     document.getElementById("page-surprise").classList.add("active");
     window.scrollTo(0, 0);
 
-    // Only launch confetti for accepted members
     if (status === "accepted") {
       launchConfetti();
     }
@@ -121,47 +93,55 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
  * UI UPDATER
  * Dynamically changes the page content based on the applicant's status
  */
+/**
+ * UI UPDATER
+ * Dynamically changes the page content based on the applicant's status
+ */
 function updateResultUI(status, nick, first, last, promotedTitle, fullName, initials) {
   const messageEl = document.getElementById("s-message");
-  const nickEl    = document.getElementById("s-nick");
   const headingEl = document.querySelector(".s-heading");
   const idCard    = document.querySelector(".id-card");
   const sealEl    = document.getElementById("surprise-seal");
 
-  nickEl.textContent = nick;
-  idCard.style.display = "none"; // Hidden by default for non-accepted
+  // Reset UI state
+  idCard.style.display = "none";
+  sealEl.classList.remove("party-animate");
 
   if (status === "accepted") {
     headingEl.innerHTML = `Congratulations,<br/><span class="red-text">${nick}</span>!`;
     messageEl.innerHTML = buildMessage(nick, promotedTitle);
     
-    // Fill ID Card
+    // Fill ID Card details
     document.getElementById("id-name").textContent = fullName;
     document.getElementById("id-pos").textContent = promotedTitle;
     document.getElementById("id-avatar").textContent = initials;
     
     idCard.style.display = "flex";
-    sealEl.innerHTML = "🎉";
+    
+    // Add animation wrapper for the party emoji
+    sealEl.innerHTML = "<span>🎉</span>"; 
+    sealEl.classList.add("party-animate");
   } 
   else if (status === "on-hold") {
     headingEl.innerHTML = `Hang tight,<br/>${nick}.`;
     messageEl.innerHTML = `Your application for The New Builder is currently <strong>ON HOLD</strong>. Our editors are performing a final review of your portfolio. Check back soon for updates!`;
-    sealEl.innerHTML = "⏳";
+    sealEl.innerHTML = "<span>⏳</span>";
   } 
   else if (status === "not-accepted") {
     headingEl.innerHTML = `Thank you,<br/>${nick}.`;
     messageEl.innerHTML = `We appreciate your interest in joining The New Builder. After careful review, we are moving forward with other candidates at this time. Keep writing and creating!`;
-    sealEl.innerHTML = "✉️";
+    sealEl.innerHTML = "<span>✉️</span>";
   } 
   else {
-    // unrecognized
+    // unrecognized / system error
     headingEl.innerHTML = `System Error,<br/>${nick}.`;
     messageEl.innerHTML = `<strong>Unrecognized Member.</strong> We couldn't find a record for the surname "<strong>${last}</strong>". Please contact the Features Editor or your Section Head to verify your status.`;
-    sealEl.innerHTML = "⚠️";
+    sealEl.innerHTML = "<span>⚠️</span>";
   }
 }
 
 // ── Input Cleaning ──
+// Removes error styling as the user types
 document.querySelectorAll("input, select").forEach((el) => {
   el.addEventListener("input", () => {
     el.classList.remove("invalid");
@@ -171,6 +151,7 @@ document.querySelectorAll("input, select").forEach((el) => {
 });
 
 // ── Suspense Sequence ──
+// Controls the fake loading bar and status messages
 function runSuspense(onDone) {
   const page      = document.getElementById("page-loading");
   const statusEl  = document.getElementById("loading-status");
@@ -207,6 +188,7 @@ function buildMessage(nick, position) {
 }
 
 // ── Reset ──
+// Clears the form and returns to the first page
 function resetAll() {
   document.getElementById("main-form").reset();
   document.querySelectorAll("input, select").forEach(el => el.classList.remove("invalid"));
@@ -220,6 +202,7 @@ function resetAll() {
 }
 
 // ── Confetti ──
+// Generates random falling particles for accepted members
 function launchConfetti() {
   const wrap   = document.getElementById("confetti-wrap");
   wrap.innerHTML = "";
