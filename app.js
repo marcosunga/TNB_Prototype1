@@ -40,12 +40,15 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
   document.getElementById("id-pos").textContent    = pos;
   document.getElementById("id-avatar").textContent = initials;
 
-  // Switch to surprise
+  // Show suspense loading screen, then reveal
   document.getElementById("page-form").classList.remove("active");
-  document.getElementById("page-surprise").classList.add("active");
   window.scrollTo(0, 0);
-
-  launchConfetti();
+  runSuspense(() => {
+    document.getElementById("page-loading").classList.remove("active");
+    document.getElementById("page-surprise").classList.add("active");
+    window.scrollTo(0, 0);
+    launchConfetti();
+  });
 });
 
 // ── Clear invalid on input ──
@@ -57,7 +60,39 @@ document.querySelectorAll("input, select").forEach((el) => {
   });
 });
 
-// ── Message builder ──
+// ── Suspense loading sequence ──
+function runSuspense(onDone) {
+  const page      = document.getElementById("page-loading");
+  const statusEl  = document.getElementById("loading-status");
+  const barEl     = document.getElementById("loading-bar");
+
+  page.classList.add("active");
+
+  const steps = [
+    { pct: 15,  text: "Verifying your information…",       delay: 0    },
+    { pct: 38,  text: "Cross-checking member records…",    delay: 800  },
+    { pct: 62,  text: "Reviewing your application…",       delay: 1700 },
+    { pct: 85,  text: "Preparing something special…",      delay: 2700 },
+    { pct: 100, text: "Almost there…",                     delay: 3600 },
+  ];
+
+  steps.forEach(({ pct, text, delay }) => {
+    setTimeout(() => {
+      barEl.style.width = pct + "%";
+      statusEl.style.opacity = "0";
+      setTimeout(() => {
+        statusEl.textContent  = text;
+        statusEl.style.opacity = "1";
+      }, 160);
+    }, delay);
+  });
+
+  // Total suspense: 4200ms (random between 3.8s–4.6s for extra drama)
+  const total = 3800 + Math.random() * 800;
+  setTimeout(onDone, total);
+}
+
+
 function buildMessage(nick, position) {
   return `We are beyond thrilled to officially welcome you, <strong>${nick}</strong>, as a <strong>${position}</strong> of our organization! 🎊 This moment marks the beginning of an incredible journey — we've been waiting for someone just like you. Get ready to grow, connect, and make a real difference with the team!`;
 }
@@ -69,6 +104,7 @@ function resetAll() {
   document.querySelectorAll(".field-error").forEach(el => el.classList.add("hidden"));
   document.getElementById("confetti-wrap").innerHTML = "";
 
+  document.getElementById("page-loading").classList.remove("active");
   document.getElementById("page-surprise").classList.remove("active");
   document.getElementById("page-form").classList.add("active");
   window.scrollTo(0, 0);

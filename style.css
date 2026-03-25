@@ -213,7 +213,93 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
 }
 
 /* ─────────────────────────────
-   PAGE 2 — FULL-SCREEN SURPRISE
+   PAGE 2 — SUSPENSE LOADING
+───────────────────────────── */
+#page-loading {
+  min-height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+#page-loading.active { display: flex; }
+
+.loading-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  animation: riseIn 0.4s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Spinning logo ring */
+.loading-logo {
+  position: relative;
+  width: 88px; height: 88px;
+}
+.logo-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--red);
+  border-right-color: rgba(224,32,32,0.3);
+  animation: spinRing 1s linear infinite;
+}
+.logo-core {
+  position: absolute; inset: 12px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+@keyframes spinRing { to { transform: rotate(360deg); } }
+
+/* Status text */
+.loading-status {
+  font-family: var(--font-b);
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.02em;
+  min-height: 1.4em;
+  transition: opacity 0.3s;
+  text-align: center;
+}
+
+/* Progress bar */
+.loading-bar-wrap {
+  width: 220px; height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.loading-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--red), #ff7a7a);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+
+/* Dots */
+.loading-dots {
+  display: flex; gap: 6px; align-items: center;
+}
+.loading-dots span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(224,32,32,0.6);
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+  40%            { transform: scale(1.2); opacity: 1; }
+}
+
+/* ─────────────────────────────
+   PAGE 3 — FULL-SCREEN SURPRISE
 ───────────────────────────── */
 #page-surprise {
   min-height: 100vh;
