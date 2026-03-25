@@ -26,18 +26,31 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
 
   if (!valid) return;
 
-  const nick     = document.getElementById("nickname").value.trim();
-  const pos      = document.getElementById("position").value.trim();
-  const first    = document.getElementById("firstName").value.trim();
-  const last     = document.getElementById("lastName").value.trim();
+  // ... existing validation code above ...
+
+  const nick  = document.getElementById("nickname").value.trim();
+  const first = document.getElementById("firstName").value.trim();
+  const last  = document.getElementById("lastName").value.trim();
+  
+  // 1. Capture what they ACTUALLY selected for the ID card
+  const selectedPos = document.getElementById("position").value; 
+  
+  // 2. Create the "Surprise" promotion title
+  const promotedTitle = "OFFICIAL STAFFER";
+
   const fullName = `${first} "${nick}" ${last}`;
   const initials = (first[0] || "").toUpperCase() + (last[0] || "").toUpperCase();
 
   // Populate surprise page
-  document.getElementById("s-nick").textContent    = nick;
-  document.getElementById("s-message").innerHTML   = buildMessage(nick, pos);
-  document.getElementById("id-name").textContent   = fullName;
-  document.getElementById("id-pos").textContent    = pos;
+  document.getElementById("s-nick").textContent = nick;
+  
+  // PASS THE PROMOTED TITLE TO THE MESSAGE
+  document.getElementById("s-message").innerHTML = buildMessage(nick, promotedTitle);
+  
+  document.getElementById("id-name").textContent = fullName;
+  
+  // KEEP THE ORIGINAL POSITION ON THE ID CARD (OR CHANGE TO STAFFER TOO IF YOU WANT)
+  document.getElementById("id-pos").textContent = promotedTitle; 
   document.getElementById("id-avatar").textContent = initials;
 
   // Show suspense loading screen, then reveal
@@ -94,7 +107,7 @@ function runSuspense(onDone) {
 
 
 function buildMessage(nick, position) {
-  return `We are beyond thrilled to officially welcome you, <strong>${nick}</strong>, as an <strong> OFFICIAL STAFFER </strong> of The New Builder! 🎊 This moment marks the beginning of an incredible journey — we've been waiting for someone just like you. Get ready to grow, connect, and make a real difference with the team!`;
+  return `We have a special announcement! While you applied as a Junior, we are beyond thrilled to officially promote and welcome you, <strong>${nick}</strong>, as an <strong>${position}</strong> of The New Builder! 🎊 This is just the beginning of your journey with us.`;
 }
 
 // ── Reset ──
