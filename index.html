@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Member Portal</title>
+  <title>The New Builder's Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
@@ -27,7 +27,7 @@
         <div class="brand-icon">
           <img src="logo.png" alt="The New Builder" />
         </div>
-        <span class="brand-name">The New Builder</span>
+        <span class="brand-name">The New Builder's Portal</span>
       </div>
 
       <div class="card">
@@ -36,8 +36,8 @@
 
           <div>
             <p class="eyebrow">Welcome</p>
-            <h1 class="card-heading">Sign in to your<br/>account</h1>
-            <p class="card-hint">Fill in your details to access the member portal.</p>
+            <h1 class="card-heading">Who are<br/>you?</h1>
+            <p class="card-hint">Fill in your details to access The New Builder's portal.</p>
           </div>
 
           <form id="main-form" novalidate>
@@ -66,20 +66,25 @@
               <span class="field-error hidden" id="err-nickname">Required.</span>
             </div>
 
+            
             <!-- Position -->
             <div class="field-block">
-              <label class="field-label">Current Position <span class="req">*</span></label>
-              <div class="select-wrap">
-                <select id="position">
-                  <option value="" disabled selected>Select your position…</option>
-                  <option value="Staffer">Staffer</option>
-                </select>
-                <svg class="select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="m6 9 6 6 6-6"/>
-                </svg>
-              </div>
-              <span class="field-error hidden" id="err-position">Please select a position.</span>
-            </div>
+  <label class="field-label" for="position">Current Position <span class="req">*</span></label>
+  <div class="select-wrap">
+    <select id="position" required>
+      <option value="" disabled selected>Select your position…</option>
+      <option value="staffer">Staffer</option>
+      <option value="juniors-writer">Junior - Writer</option>
+      <option value="juniors-gfx">Junior - GFX</option>
+      <option value="juniors-photographer">Junior - Photographer</option>
+    </select>
+    
+    <svg class="select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </div>
+  <span class="field-error hidden" id="err-position">Please select a position.</span>
+</div>
 
             <button type="submit" class="btn-red">
               Submit &amp; Continue
@@ -90,7 +95,7 @@
 
           </form>
 
-          <p class="login-footnote">🔒 One-time member registration. Your info stays within the org.</p>
+          <p class="login-footnote">🔒 Are you ready to continue?.</p>
 
         </div>
       </div>
@@ -106,7 +111,7 @@
       <div class="loading-logo">
         <div class="logo-ring"></div>
         <div class="logo-core">
-          <img src="logo.png" alt="The New Builder" style="width:46px;height:46px;border-radius:50%;object-fit:cover;" />
+          <img src="logo.png" alt="The New Builder" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
         </div>
       </div>
 
@@ -135,7 +140,7 @@
       </div>
       <div class="org-text">
         <span class="org-name">The New Builder</span>
-        <span class="org-tagline">Official Member Portal</span>
+        <span class="org-tagline">Mapúa University's Official Student Publication</span>
       </div>
       <div class="org-badge">OFFICIAL</div>
     </header>
@@ -143,11 +148,10 @@
     <!-- SURPRISE CONTENT -->
     <div class="surprise-body-wrap">
 
-      <div class="seal" id="surprise-seal">
+      <div class="seal">
         <div class="seal-outer"></div>
-        <div class="seal-inner">🎉</div>
-      </div>
-
+        <div class="seal-inner" id="surprise-seal"><span>🎉</span></div>
+        </div>
       <p class="s-eyebrow">Acceptance Notice</p>
       <h2 class="s-heading">
         Congratulations,<br/>
@@ -158,10 +162,10 @@
       <div class="id-card">
         <div class="id-avatar" id="id-avatar"></div>
         <div class="id-info">
-          <span class="id-label">OFFICIAL MEMBER</span>
-          <div class="id-name" id="id-name"></div>
-          <div class="id-pos" id="id-pos"></div>
-        </div>
+  <span class="id-label">Welcome!</span>
+  <div class="id-name" id="id-name"></div>
+  <div class="id-pos" id="id-pos" style="font-weight: 600; color: #e02020;"></div> 
+</div>
         <div class="id-stripe"></div>
       </div>
 
@@ -170,6 +174,6 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>

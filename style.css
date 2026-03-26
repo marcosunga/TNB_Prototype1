@@ -421,6 +421,20 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
   to   { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
+/* Party bounce for accepted seal */
+.party-animate span {
+  display: inline-block;
+  animation: partyBounce 0.6s cubic-bezier(.34,1.56,.64,1) both, partyWiggle 1.2s ease-in-out 0.6s infinite;
+}
+@keyframes partyBounce {
+  from { transform: scale(0.3) rotate(-20deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes partyWiggle {
+  0%, 100% { transform: rotate(-8deg) scale(1); }
+  50%       { transform: rotate(8deg) scale(1.1); }
+}
+
 /* Text */
 .s-eyebrow {
   font-size: 0.7rem; font-weight: 700;

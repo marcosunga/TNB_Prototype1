@@ -93,10 +93,6 @@ document.getElementById("main-form").addEventListener("submit", (e) => {
  * UI UPDATER
  * Dynamically changes the page content based on the applicant's status
  */
-/**
- * UI UPDATER
- * Dynamically changes the page content based on the applicant's status
- */
 function updateResultUI(status, nick, first, last, promotedTitle, fullName, initials) {
   const messageEl = document.getElementById("s-message");
   const headingEl = document.querySelector(".s-heading");
