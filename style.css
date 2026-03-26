@@ -3,10 +3,10 @@
 
 /* ── Variables ── */
 :root {
-  --red:        #e02020;
-  --red-dark:   #b91515;
-  --red-soft:   rgba(224,32,32,0.09);
-  --red-glow:   rgba(224,32,32,0.22);
+  --red:        #7f1d1d;
+  --red-dark:   #5f1414;
+  --red-soft:   rgba(127,29,29,0.09);
+  --red-glow:   rgba(127,29,29,0.28);
   --bg:         #0e0e12;
   --card:       #ffffff;
   --text:       #111118;
@@ -98,12 +98,17 @@ html, body {
   font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em;
 }
 .brand-icon {
-  width: 32px; height: 32px;
-  background: var(--red);
-  border-radius: 8px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  color: white;
-  box-shadow: 0 4px 16px var(--red-glow);
+  box-shadow: 0 4px 16px rgba(131,27,27,0.4);
+  flex-shrink: 0;
+}
+.brand-icon img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 /* Card */
@@ -247,10 +252,9 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
 }
 .logo-core {
   position: absolute; inset: 12px;
-  background: rgba(255,255,255,0.06);
   border-radius: 50%;
+  overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.7);
   border: 1px solid rgba(255,255,255,0.1);
 }
 @keyframes spinRing { to { transform: rotate(360deg); } }
@@ -326,12 +330,16 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
 
 .org-logo {
   width: 44px; height: 44px;
-  background: var(--red);
-  border-radius: 12px;
+  border-radius: 50%;
+  overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  color: white;
-  box-shadow: 0 4px 14px var(--red-glow);
+  box-shadow: 0 4px 14px rgba(131,27,27,0.3);
   flex-shrink: 0;
+}
+.org-logo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .org-text {
@@ -511,27 +519,4 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
   .org-header { padding: 0 1.25rem; }
   .org-badge { display: none; }
   .s-message { font-size: 0.92rem; }
-} /* <--- THIS BRACE WAS MISSING */
-
-/* 1. Define the "Pop" Animation (Now outside the media query) */
-@keyframes party-wiggle {
-  0% { transform: scale(1) rotate(0deg); }
-  20% { transform: scale(1.3) rotate(-15deg); }
-  40% { transform: scale(1) rotate(0deg); }
-  60% { transform: scale(1.3) rotate(15deg); }
-  80% { transform: scale(1) rotate(0deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
-
-/* 2. Apply it only when the 'party-animate' class is added */
-.seal-inner.party-animate span {
-  display: inline-block;
-  animation: party-wiggle 0.8s ease-in-out infinite;
-}
-
-/* 3. ENSURE FORM IS CLICKABLE */
-#page-form.active {
-  display: flex;
-  position: relative;
-  z-index: 5; /* This pushes it above the background glows */
 }
