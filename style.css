@@ -497,6 +497,39 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
   background: linear-gradient(180deg, var(--red), #ff7a7a);
 }
 
+/* GC Messenger button */
+#gc-btn-wrap {
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 1rem;
+  animation: fadeUp 0.5s cubic-bezier(.22,1,.36,1) both 0.52s;
+}
+.btn-gc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: #0078FF;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-b);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .18s, transform .15s, box-shadow .18s;
+  box-shadow: 0 4px 20px rgba(0,120,255,0.3);
+}
+.btn-gc:hover {
+  background: #0060cc;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(0,120,255,0.4);
+}
+.btn-gc:active { transform: translateY(0); }
+
 /* Ghost button */
 .btn-ghost {
   background: none;
