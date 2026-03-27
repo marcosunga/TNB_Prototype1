@@ -502,7 +502,6 @@ select.invalid { border-color: var(--red); background: #fff5f5; }
   width: 100%;
   max-width: 360px;
   margin-bottom: 1rem;
-  animation: fadeUp 0.5s cubic-bezier(.22,1,.36,1) both 0.52s;
 }
 .btn-gc {
   display: flex;

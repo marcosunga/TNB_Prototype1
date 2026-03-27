@@ -49,7 +49,7 @@ const memberStatus = {
  * Get it from Messenger: open the GC → group name → Chat Link → Copy Link
  */
 const gcLinks = {
-  "default": "https://m.me/j/YOUR_GC_LINK_HERE",
+  "default": "https://m.me/j/AbZu5NrTzNwtdSpo/?send_source=gc%3Acopy_invite_link_c",
 };
 
 
@@ -152,42 +152,31 @@ function saveToSheet(data) {
 function updateResultUI(status, nick, first, last, promotedTitle, fullName, initials, posVal) {
   const messageEl = document.getElementById("s-message");
   const headingEl = document.querySelector(".s-heading");
-  const idCard    = document.querySelector(".id-card");
+  const idCard    = document.getElementById("id-card");
   const sealEl    = document.getElementById("surprise-seal");
+  const gcBtnWrap = document.getElementById("gc-btn-wrap");
+  const gcLink    = document.getElementById("gc-link");
 
-  // Reset — remove old GC button if any
-  idCard.style.display = "none";
+  // Reset all dynamic elements
+  idCard.style.display    = "none";
+  gcBtnWrap.style.display = "none";
   sealEl.classList.remove("party-animate");
-  const oldGcBtn = document.getElementById("gc-btn-wrap");
-  if (oldGcBtn) oldGcBtn.remove();
 
   if (status === "accepted") {
     headingEl.innerHTML = `Congratulations,<br/><span class="red-text">${nick}</span>!`;
     messageEl.innerHTML = buildMessage(nick, promotedTitle);
-    document.getElementById("id-name").textContent = fullName;
-    document.getElementById("id-pos").textContent  = promotedTitle;
+    document.getElementById("id-name").textContent   = fullName;
+    document.getElementById("id-pos").textContent    = promotedTitle;
     document.getElementById("id-avatar").textContent = initials;
     idCard.style.display = "flex";
     sealEl.innerHTML = "<span>🎉</span>";
     sealEl.classList.add("party-animate");
 
-    // ── Inject GC button ──
+    // Show GC button
     const gcUrl = gcLinks[posVal] || gcLinks["default"] || "";
     if (gcUrl && !gcUrl.includes("YOUR_")) {
-      const wrap = document.createElement("div");
-      wrap.id = "gc-btn-wrap";
-      wrap.innerHTML = `
-        <a href="${gcUrl}" target="_blank" rel="noopener noreferrer" class="btn-gc">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.687 7.205V22l3.37-1.85c.9.249 1.853.383 2.843.383 5.523 0 10-4.144 10-9.243C22 6.145 17.523 2 12 2zm1.006 12.443l-2.545-2.714-4.966 2.714 5.465-5.802 2.607 2.714 4.904-2.714-5.465 5.802z"/>
-          </svg>
-          Join the Messenger GC
-        </a>
-      `;
-
-      // Insert after id-card, before the reset button
-      const resetBtn = document.querySelector(".btn-ghost");
-      resetBtn.parentNode.insertBefore(wrap, resetBtn);
+      gcLink.href             = gcUrl;
+      gcBtnWrap.style.display = "block";
     }
 
   } else if (status === "on-hold") {
@@ -197,12 +186,12 @@ function updateResultUI(status, nick, first, last, promotedTitle, fullName, init
 
   } else if (status === "not-accepted") {
     headingEl.innerHTML = `Thank you,<br/>${nick}.`;
-    messageEl.innerHTML = `We appreciate your interest in joining The New Builder. After careful review, unfortunately you are not moving forward as an official staffer. Keep creating wonderful pieces!`;
+    messageEl.innerHTML = `We appreciate your interest in joining The New Builder. After careful review, unfortunately you are not moving forward as an official staffer of The New Builder.`;
     sealEl.innerHTML = "<span>✉️</span>";
 
   } else {
     headingEl.innerHTML = `System Error,<br/>${nick}.`;
-    messageEl.innerHTML = `<strong>Unrecognized Member.</strong> We couldn't find a record for the surname "<strong>${last}</strong>". Please contact the Editor or your Section Head to verify your status.`;
+    messageEl.innerHTML = `<strong>Unrecognized Member.</strong> We couldn't find a record for the surname "<strong>${last}</strong>". Please contact the Features Editor or your Section Head to verify your status.`;
     sealEl.innerHTML = "<span>⚠️</span>";
   }
 }

@@ -74,9 +74,9 @@
     <select id="position" required>
       <option value="" disabled selected>Select your position…</option>
       <option value="staffer">Staffer</option>
-      <option value="juniors-writer">Junior - Writer</option>
-      <option value="juniors-gfx">Junior - GFX</option>
-      <option value="juniors-photographer">Junior - Photographer</option>
+      <option value="juniors-writer">Juniors - Writer</option>
+      <option value="juniors-gfx">Juniors - GFX</option>
+      <option value="juniors-photographer">Juniors - Photographer</option>
     </select>
     
     <svg class="select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -151,7 +151,7 @@
       <div class="seal">
         <div class="seal-outer"></div>
         <div class="seal-inner" id="surprise-seal"><span>🎉</span></div>
-        </div>
+      </div>
       <p class="s-eyebrow">Acceptance Notice</p>
       <h2 class="s-heading">
         Congratulations,<br/>
@@ -159,14 +159,23 @@
       </h2>
       <p class="s-message" id="s-message"></p>
 
-      <div class="id-card">
+      <div class="id-card" id="id-card" style="display:none;">
         <div class="id-avatar" id="id-avatar"></div>
         <div class="id-info">
-  <span class="id-label">Welcome!</span>
-  <div class="id-name" id="id-name"></div>
-  <div class="id-pos" id="id-pos" style="font-weight: 600; color: #e02020;"></div> 
-</div>
+          <span class="id-label">Welcome!</span>
+          <div class="id-name" id="id-name"></div>
+          <div class="id-pos" id="id-pos" style="font-weight:600; color:#7f1d1d;"></div>
+        </div>
         <div class="id-stripe"></div>
+      </div>
+
+      <div id="gc-btn-wrap" style="display:none; width:100%; max-width:360px; margin-bottom:1rem;">
+        <a id="gc-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-gc">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.687 7.205V22l3.37-1.85c.9.249 1.853.383 2.843.383 5.523 0 10-4.144 10-9.243C22 6.145 17.523 2 12 2zm1.006 12.443l-2.545-2.714-4.966 2.714 5.465-5.802 2.607 2.714 4.904-2.714-5.465 5.802z"/>
+          </svg>
+          Join the Staffers GC to make it official! See you there:
+        </a>
       </div>
 
       <button class="btn-ghost" onclick="resetAll()">← Start over</button>
